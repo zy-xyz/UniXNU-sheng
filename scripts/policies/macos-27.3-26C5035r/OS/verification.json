@@ -1,14 +1,17 @@
 {
-  "image_bytes": 14493417472,
-  "blocks_verified": 3538432,
-  "image_sha256": "40d8282eb8650da9b4d7437a981764c48d47ee4bdc5b8b362248f25ecbce0e70",
-  "volume_uuid": "84581E99-85BE-4957-AC53-2947E887B3E4",
+  "version": 1,
+  "block_bytes": 4096,
+  "image_bytes": 13723762688,
+  "block_count": 3350528,
+  "volume_uuid": "909581FE-AFA9-4C80-B161-5652D85DDCE4",
   "generation": 1,
-  "trusted_key_sha256": "9de35ac810f15f20b9304b85714f0f998589e223b131d6bb006a0f8486d3d832",
-  "real_c_signature_and_block_verification": true,
-  "original_image_modified": false,
-  "host_only": true,
+  "image_sha256": "9f3bfdfc59b6c79a8cda46458c1c86172d1ab21c6c7b09eb4b11f5b396d25281",
+  "hash_table_sha256": "3977436d20fab2bfbd47ba391db920f2a6df451a913a384d4091414874cd8a24",
+  "trusted_key_sha256": "61e368bb8ea0361189f5a32329870a9d8b87844eb862e550da33fdba5152d0e4",
+  "signature_algorithm": "RSA3072-PKCS1v1.5-SHA256",
+  "signature_verified_by_openssl": true,
+  "image_modified": false,
+  "hardware_tested": false,
   "boot_root_authenticated": false,
-  "qemu_tested": false,
-  "hardware_tested": false
+  "real_c_signature_and_block_verification": true
 }
