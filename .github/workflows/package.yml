@@ -136,7 +136,8 @@ jobs:
           sudo -E python3 unixnu ipsw fetch OS --os "$OS_PROFILE" -D ../UniXNU-sheng
           OS_DMG=$(ls out/ipsw/*/*.dmg | head -1)
           SEED=out/sheng/"$OS_PROFILE"/sheng_macos/runtime/data.dbr
-          sudo -E python3 scripts/make-macos-data-seed.py "$OS_DMG" "$SEED" --gib 210
+          sudo -E python3 scripts/make-macos-data-seed.py "$OS_DMG" "$SEED" --gib 210 \
+            --volume-uuid 79157BD4-6A8C-45D6-A0EB-11FEA89BDE46
           sudo chmod -R a+rX out/sheng/"$OS_PROFILE"/sheng_macos/runtime
           ls -l "$SEED"
           echo "MACOS_DATA_SEED=$PWD/$SEED" >> "$GITHUB_ENV"
