@@ -134,7 +134,15 @@ jobs:
           if [ "$OS_PROFILE" = 27 ] && [ "$INIT_DATA" = true ]; then
             args+=(--init-data)
           fi
-          scripts/package.sh "${args[@]}"
+          # A macOS profile has no saved first-install seed: the Data volume UUID is
+          # bound during the kernel build, so the seed is created in this same run.
+          # The build runs as root because the seed step mounts the OS image.
+          if [[ "$OS_PROFILE" == macos-* ]]; then
+            args+=(--init-data)
+            sudo -E scripts/package.sh "${args[@]}"
+          else
+            scripts/package.sh "${args[@]}"
+          fi
       - uses: actions/cache/save@v4
         if: always() && inputs.os == '27' && steps.data-cache.outputs.cache-hit != 'true' && hashFiles('UniXNU/out/sheng/ipados-27.0.1-24A446/sheng_ipados27/runtime/data.dbr') != ''
         with:
