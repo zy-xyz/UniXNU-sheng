@@ -122,6 +122,24 @@ jobs:
           if not path.is_file() and os.environ['INIT_DATA'] != 'true':
               raise SystemExit('No saved seed. Supply the ORIGINAL seed for an existing installation, or select init_data for a FIRST installation')
           PY
+      - name: macOS first-install Data seed
+        if: startsWith(inputs.os, 'macos')
+        env:
+          OS_PROFILE: ${{ inputs.os }}
+        run: |
+          set -euo pipefail
+          # The seed keeps file owners (root and service accounts) and carries the Data
+          # volume UUID the kernel binds, so it is created here as root from the same
+          # IPSW the kernel build reads. It travels to the package step as a path.
+          cd ../UniXNU
+          sudo -E python3 unixnu ipsw fetch OS --os "$OS_PROFILE" -D ../UniXNU-sheng
+          OS_DMG=$(ls out/ipsw/*/*.dmg | head -1)
+          SEED=out/sheng/"$OS_PROFILE"/sheng_macos/runtime/data.dbr
+          sudo -E python3 scripts/make-macos-data-seed.py "$OS_DMG" "$SEED" --gib 210
+          sudo chmod -R a+rX out/sheng/"$OS_PROFILE"/sheng_macos/runtime
+          ls -l "$SEED"
+          echo "MACOS_DATA_SEED=$PWD/$SEED" >> "$GITHUB_ENV"
+
       - name: package
         working-directory: device
         env:
@@ -134,11 +152,8 @@ jobs:
           if [ "$OS_PROFILE" = 27 ] && [ "$INIT_DATA" = true ]; then
             args+=(--init-data)
           fi
-          # A macOS profile has no saved first-install seed: the Data volume UUID is
-          # bound during the kernel build, so the seed is created in this same run.
-          # The build runs as root because the seed step mounts the OS image.
           if [[ "$OS_PROFILE" == macos-* ]]; then
-            args+=(--init-data)
+            args+=(--data-ramdisk "$MACOS_DATA_SEED")
             sudo -E scripts/package.sh "${args[@]}"
           else
             scripts/package.sh "${args[@]}"
