@@ -142,6 +142,10 @@ jobs:
             sudo -E ipsw fw aea "$aea" -o "$(dirname "$aea")"
           done
           OS_DMG=$(ls out/ipsw/*/*.dmg | head -1)
+          # seed-data-grow.py builds its scratch image under build/, which the
+          # release pipeline has not created yet at this point.
+          mkdir -p build
+          sudo mkdir -p "$(dirname "out/sheng/$OS_PROFILE/sheng_macos/runtime/data.dbr")"
           SEED=out/sheng/"$OS_PROFILE"/sheng_macos/runtime/data.dbr
           sudo -E python3 scripts/make-macos-data-seed.py "$OS_DMG" "$SEED" --gib 210 \
             --volume-uuid 79157BD4-6A8C-45D6-A0EB-11FEA89BDE46
