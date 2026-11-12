@@ -133,7 +133,7 @@ jobs:
           # volume UUID the kernel binds, so it is created here as root from the same
           # IPSW the kernel build reads. It travels to the package step as a path.
           cd ../UniXNU
-          sudo -E python3 unixnu ipsw fetch OS --os "$OS_PROFILE" -D ../UniXNU-sheng
+          sudo -E python3 unixnu ipsw fetch OS --os "$OS_PROFILE" -D ../device
           OS_DMG=$(ls out/ipsw/*/*.dmg | head -1)
           SEED=out/sheng/"$OS_PROFILE"/sheng_macos/runtime/data.dbr
           sudo -E python3 scripts/make-macos-data-seed.py "$OS_DMG" "$SEED" --gib 210 \
