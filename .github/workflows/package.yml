@@ -42,8 +42,8 @@ jobs:
           submodules: recursive
       - uses: actions/checkout@v4
         with:
-          repository: UniXNU/UniXNU
-          ref: 82b847c4ac3f68a57024b3082ffa3a03442defd9 # Wi-Fi runtime and Data firmware integration
+          repository: zy-xyz/UniXNU
+          ref: bce311c7c22db1f015771bb54b84b6bf008724be # fork carrying profiles/os/macos-27.3-26C5035r
           path: UniXNU
           submodules: recursive
       - uses: actions/checkout@v4
