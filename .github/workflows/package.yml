@@ -124,6 +124,7 @@ jobs:
           PY
       - name: macOS first-install Data seed
         if: startsWith(inputs.os, 'macos')
+        working-directory: device
         env:
           OS_PROFILE: ${{ inputs.os }}
         run: |
