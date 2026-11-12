@@ -136,6 +136,11 @@ jobs:
           # The IPSW step needs the SoC and XNU sources cached first.
           sudo -E python3 unixnu fetch --os "$OS_PROFILE" -D ../device
           sudo -E python3 unixnu ipsw fetch OS --os "$OS_PROFILE" -D ../device
+          # The IPSW ships the system volume as an AEA1 archive; decrypt it in place
+          # so the seed step can attach a plain APFS image.
+          for aea in out/ipsw/*/*.dmg.aea; do
+            sudo -E ipsw fw aea "$aea" -o "$(dirname "$aea")"
+          done
           OS_DMG=$(ls out/ipsw/*/*.dmg | head -1)
           SEED=out/sheng/"$OS_PROFILE"/sheng_macos/runtime/data.dbr
           sudo -E python3 scripts/make-macos-data-seed.py "$OS_DMG" "$SEED" --gib 210 \
