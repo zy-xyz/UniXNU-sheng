@@ -1,0 +1,17 @@
+name: sdk probe
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: macos-26
+    timeout-minutes: 10
+    steps:
+      - run: |
+          ls /Applications | grep -i xcode
+          xcode-select -p
+          ls /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+          echo '--- IOGPU in default SDK ---'
+          SDK=$(xcrun --sdk macosx --show-sdk-path)
+          ls -d "$SDK/System/Library/PrivateFrameworks/IOGPU.framework" 2>/dev/null || echo IOGPU_MISSING
+          echo '--- all xcode versions ---'
+          ls -d /Applications/Xcode*.app 2>/dev/null
